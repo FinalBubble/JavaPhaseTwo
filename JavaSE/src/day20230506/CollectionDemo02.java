@@ -3,17 +3,19 @@ package day20230506;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * 元素会影响集合操作的相关方法
  */
 public class CollectionDemo02 {
     public static void main(String[] args) {
-        Collection c = new ArrayList();
+        Collection c = new ArrayList();//该集合允许存储重复的元素
+        //Collection c = new HashSet();//该集合不允许存储重复的元素
         c.add(new Point(1, 2));
-//        c.add(new Point(1, 2));
-//        c.add(new Point(1, 2));
-//        c.add(new Point(1, 2));
+        c.add(new Point(1, 2));
+        c.add(new Point(1, 2));
+        c.add(new Point(1, 2));
         c.add(new Point(3, 4));
         c.add(new Point(5, 6));
         c.add(new Point(7, 8));
