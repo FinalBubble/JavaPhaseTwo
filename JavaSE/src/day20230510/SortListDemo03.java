@@ -28,14 +28,18 @@ public class SortListDemo03 {
          * 如果返回值<0 说明第一个参数小于第二个参数
          * 如果返回值=0 说明两个参数相等
          */
-        Collections.sort(list, new Comparator<Point>() {
-            @Override
-            public int compare(Point o1, Point o2) {
-                int len1 = o1.getX() * o1.getX() + o1.getY() * o1.getY();
-                int len2 = o2.getX() * o2.getX() + o2.getY() * o2.getY();
-                return len1-len2;
-            }
-        });
+//        Collections.sort(list, new Comparator<Point>() {
+//            @Override
+//            public int compare(Point o1, Point o2) {
+//                int len1 = o1.getX() * o1.getX() + o1.getY() * o1.getY();
+//                int len2 = o2.getX() * o2.getX() + o2.getY() * o2.getY();
+//                return len1-len2;
+//            }
+//        });
+        Collections.sort(list,((o1, o2) ->
+                o1.getX() * o1.getX() + o1.getY() * o1.getY() -
+                        o2.getX() * o2.getX() - o2.getY() * o2.getY()
+        ));
         //Collections.reverse(list);//反转
         System.out.println(list);
     }
