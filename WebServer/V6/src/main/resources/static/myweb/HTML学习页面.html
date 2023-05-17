@@ -1,0 +1,89 @@
+<!-- HTML注释 快捷键 CTRL+SHIFT+/ -->
+<!--
+    HTML(Hyper Text Markup Language)超文本标记语言,是做网页开发最基础的语言
+    文本:比如txt,纯文本的文件
+    超文本:超级文本,可以插入图片,音频,视频等等内容
+    标记:HTML是通过一对对的标记生效的
+    HTML是由多组标签组成的
+    标签分为首尾标签,首尾标签中间的内容就是标签的内容
+    也分为自闭标签,这类标签不需要囊括其余的内容
+    标签中也可以设置属性,可以做标签的设置
+-->
+<!--文档声明,用来声明HTML文档所遵循的HTML规范的版本-->
+<!DOCTYPE html>
+<!-- <html></html>根标签,用来包裹所有的网页内容 -->
+<html lang="en">
+<!-- <head></head>头部标签,用来包裹HTML文档的基本属性信息,这部分内容会被浏览器优先加载 -->
+<head>
+    <!--用来通知浏览器使用哪一个编码打开此网页-->
+    <meta charset="UTF-8">
+    <!--声明网页的标题-->
+    <title>学习页面</title>
+</head>
+<!-- <body></body>体标签,用来包裹网页中可视化数据 -->
+<body>
+<!--居中标签 -->
+<center>
+    <!--
+        table标签 表格标签,在网页上划定表格的位置
+        表格是由行和列组成
+        tr标签 行标签,用来画表格的行 table row
+        td标签 列标签 table data
+        表格默认是没有边框的,所以可以做设置:
+        border="1" 设置边框线的粗度为1 cellspacing="0" 设置边框线的距离为0
+        colspan: 跨列合并列,横向拉宽单元格为指定的长度
+        rowspan: 跨行合并列,竖向拉长单元格未指定的长度
+        align="center" 可以让单元格中的元素居中
+    -->
+    <table border="1" cellspacing="0">
+        <tr>
+            <td colspan="2" align="center">11</td>
+            <!--<td>12</td>-->
+            <td>13</td>
+        </tr>
+        <tr>
+            <td>21</td>
+            <td>22</td>
+            <td rowspan="2">23</td>
+        </tr>
+        <tr>
+            <td>31</td>
+            <td>32</td>
+            <!--<td>33</td>-->
+        </tr>
+    </table>
+    <!--a标签 超链接,点击超链表标签,可以跳转到href属性指定的位置-->
+    <a href="http://www.taobao.com">淘宝</a>
+    <br>
+    <!--
+        input标签是输入组件,根据type的不同的值,可以产生不同的效果
+        type="text" 普通的文本输入框
+        type="password" 密码文本输入框
+        type="radio" 普单选框
+        type="checkbox" 多选框
+        type="button" 按钮
+        type="submit" 提交按钮
+    -->
+    姓名: <input type="text">
+    <br><!--换行标签-->
+    密码: <input type="password">
+    <br>
+    性别: <input type="radio"> 男 <input type="radio"> 女
+    <br>
+    爱好: <input type="checkbox"> 富婆 <input type="checkbox"> 豪车 <input type="checkbox"> 别墅
+    <br>
+    <input type="button" value="注册">
+    <br>
+    <input type="submit">
+    <br>
+    哈哈哈哈
+    <!-- h标签 标题标签 -->
+    <h1>1级标题</h1>
+    <h2>2级标题</h2>
+    <h3>3级标题</h3>
+    <h4>4级标题</h4>
+    <h5>5级标题</h5>
+    <h6>6级标题</h6>
+</center>
+</body>
+</html>
