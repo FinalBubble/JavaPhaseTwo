@@ -37,22 +37,41 @@ public class ClientHandler implements Runnable{
             System.out.println("抽象路径:" + path);
             //3发送响应
 //            new File("WebServer/V6/src/main/resources/static/myweb/index.html");
-            File file = new File(
-                    /*
-                     * ClientHandler.class.getClassLoader().getResource()定位文件时,
-                     * "./"表示的是ClientHandler的字节码文件所在顶级包路径的上一级目录,
-                     * 也就是ClientHandler的包路径是com.webserver.core,顶级包路径是com,
-                     * 那么com的上一级就是target/classes目录,所以"./"表示的就是target/classes目录,
-                     * 所以./static/myweb/index.html表示的就是target/classes/static/myweb/index.html
-                     */
-                    ClientHandler.class.getClassLoader().getResource(
-                            "./static"+path
-                    ).toURI()
-            );
+            //专门定位static目录
+            File staticDir = new File(ClientHandler.class.getClassLoader().getResource(
+                    "./static").toURI());
+            /*
+             * File(File parent,String sub)
+             * 该方法可以通过parent父级目录,定位sub子级资源
+             * 并且如果子级资源不存在,不会报空指针
+             * 当前file实例,就可以表示用户通过URL想要获取的资源
+             * 此处有两种情况:
+             * 1:用户想要获取的资源真实存在 localhost:8088/myweb/index.html
+             *   将存在的资源直接返回给客户端
+             *   "HTTP/1.1 200 OK"
+             * 2:用户想要获取的资源不存在
+             *  2.1:该资源文件不存在 localhost:8088/myweb/a.html
+             *  2.2:用户输入的是一个目录 localhost:8088/myweb
+             *   此时,用户访问不到想要获取的资源,因为服务器中没有可以返回的资源,
+             *   但是为了客户的良好体验,应该统一返回一个root/404.html页面
+             *   此处注意:如果客户端访问的资源不存在,服务器需要返回的响应信息的状态行,
+             *   需要发生变化 "HTTP/1.1 404 NotFound"
+             */
+
+            File file = new File(staticDir, path);
             //发送响应信息给浏览器
             OutputStream outputStream = socket.getOutputStream();
-            //3.1发送状态行
-            String line = "HTTP/1,1 200 OK";
+            String line;
+            if (file.isFile()) {
+                //3.1发送状态行
+                line = "HTTP/1,1 200 OK";
+            } else {
+                //不是文件或者是一个目录
+                line = "HTTP/1.1 404 NotFound";
+                //代码执行到此处,说明要返回给客户端一个404页面,所以需要将file定位到404页面
+                file = new File(staticDir,"/root/404.html");
+            }
+
             //由于outputStream是字节流，只能发送字节，所以line需要由String转换为byte[]
             println(line);
             //3.2发送响应头
