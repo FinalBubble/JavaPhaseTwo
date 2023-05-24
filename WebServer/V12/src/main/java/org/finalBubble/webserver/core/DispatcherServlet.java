@@ -78,6 +78,7 @@ public class DispatcherServlet {
              * 2.根据获取的文件名，及去除后缀名subString() jpg
              * 3.根据后缀名设置Content-type的值
              */
+            //0:可以将上述的6中对应关系的值,存储到一个map中 key:后缀 value:对应的mime值
             Map<String,String> mimeMapping = new HashMap<>();
             mimeMapping.put("html","text/html");
             mimeMapping.put("css","text/css");
@@ -85,13 +86,16 @@ public class DispatcherServlet {
             mimeMapping.put("gif","image/gif");
             mimeMapping.put("jpg","image/jpeg");
             mimeMapping.put("png","image/png");
-            String fileName = file.getName();
+            //1:首先根据file获取其表示的文件名(带后缀)
+            String fileName = file.getName();//index.html
+            //2:根据获取的文件名,及去除后缀名 subString()
             String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+            //3:根据后缀名设置Content-Type的值
             String mime = mimeMapping.get(fileName);
             response.addHeader("Content-Type",mime);
             response.addHeader("Content-Length",file.length()+"");
 
-        } else {
+        } else {//不是文件或者是一个目录
             response.setStatusCode(404);
             response.setStatusReason("NotFound");
             //代码执行到此处,说明要返回给客户端一个404页面,所以需要将file定位到404页面
