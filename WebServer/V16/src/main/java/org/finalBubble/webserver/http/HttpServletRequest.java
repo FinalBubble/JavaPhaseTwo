@@ -25,7 +25,9 @@ public class HttpServletRequest {
     private String method;//请求方式
     private String uri;//抽象路径
     private String protocol;//协议版本
-
+    private String requestURI;//封装uri中"?"左侧内容
+    private String queryString;//封装uri中"?"右侧内容
+    private Map<String, String> parameters = new HashMap<>();//存储用户提交的参数
 
 
     //消息头相关信息
@@ -34,7 +36,7 @@ public class HttpServletRequest {
     /*
      * 实例化HttpServletRequest对象的同时,可以完成请求信息的解析
      */
-    public HttpServletRequest(Socket socket) throws IOException{
+    public HttpServletRequest(Socket socket) throws IOException, EmptyRequestException {
         this.socket = socket;
         //1.1解析请求行
         parseRequestLine();
@@ -48,7 +50,7 @@ public class HttpServletRequest {
     /*
      * 解析请求行
      */
-    private void parseRequestLine() throws IOException {
+    private void parseRequestLine() throws IOException, EmptyRequestException {
         //1.1、解析请求行
         String line = readLine();
         System.out.println(line);
@@ -61,9 +63,56 @@ public class HttpServletRequest {
         method = data[0];
         uri = data[1];
         protocol = data[2];
+        parseUri();//二次解析抽象路径
         System.out.println("请求方式:" + method);
         System.out.println("抽象路径:" + uri);
         System.out.println("协议版本:" + protocol);
+    }
+
+    /*
+     * 进一步解析uri抽象路径
+     */
+    private void parseUri() {
+        /*
+         * uri是根据浏览器发送的请求解析出来的,而uri有两种情况
+         * 1)浏览器定位的是静态资源 localhost:8088/myweb/index.html
+         *   此时uri:/myweb/index.html
+         * 2)浏览器携带了参数 localhost:8088/myweb/reg?username=laoan&pwd=1234&nickname=12345&age=12
+         *   此时uri:/myweb/reg?username=laoan&pwd=1234&nickname=12345&age=12
+         * 所以需要解析的情况,针对于是第二种情况
+         *
+         * 也要注意一种情况,就是不填写表单,就提交数据
+         * localhost:8088/myweb/reg?username=&pwd=&nickname=&age=
+         * uri:/myweb/reg?username=&pwd=&nickname=&age=
+         * requestURI = /myweb/reg
+         * queryString = username=&pwd=&nickname=&age=
+         * username= -> [username]
+         * pwd= -> [pwd]
+         * nickname= -> [nickname]
+         * age= -> [age]
+         * 此时在对parameters传入值,会发生数组下标越界
+         *
+         */
+        //1.将uri根据"?"拆分
+        String[] data = uri.split("\\?");
+        //2.将数组中的第一个元素,赋值给requestURI,方便后续直接根据requestURI定位资源
+        requestURI = data[0];
+        //3.根据data的长度判定uri是否携带参数,如果长度大于1说明携带参数
+        if (data.length > 1) {
+            //4.将"?"右侧的内容赋值给queryString
+            queryString = data[1];
+            //5.将queryString根据"&"拆分成一组组的参数对
+            data = queryString.split("&");
+            //6.遍历data,将每一个字符串按照"="拆分
+            for (String para : data) {
+                String[] paras = para.split("=");
+                //7.将解析的内容,按照key和valued的形式,存储到parameters中
+                parameters.put(paras[0], paras.length > 1 ? paras[1] : null);
+            }
+        }
+        System.out.println("请求部分:"+requestURI);
+        System.out.println("参数部分:"+queryString);
+        System.out.println("参数Map:"+parameters);
     }
 
     /*
@@ -132,6 +181,14 @@ public class HttpServletRequest {
 
     public String getProtocol() {
         return protocol;
+    }
+
+    public String getRequestURI() {
+        return requestURI;
+    }
+
+    public String getQueryString() {
+        return queryString;
     }
 
     /**

@@ -1,13 +1,11 @@
 package org.finalBubble.webserver.core;
 
+import org.finalBubble.webserver.http.EmptyRequestException;
 import org.finalBubble.webserver.http.HttpServletRequest;
 import org.finalBubble.webserver.http.HttpServletResponse;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 /**
  * 该类是线程任务类,负责与指定的客户端进行HTTP交互
@@ -33,7 +31,9 @@ public class ClientHandler implements Runnable{
             response.response();
             System.out.println("响应信息发送完毕!!!!");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        } catch (EmptyRequestException e) {
+            //此处什么也不写,相当于忽视该异常
         } finally {
             //HTTP协议要求交互后，立即断开连接
             try {

@@ -34,7 +34,7 @@ public class HttpServletRequest {
     /*
      * 实例化HttpServletRequest对象的同时,可以完成请求信息的解析
      */
-    public HttpServletRequest(Socket socket) throws IOException{
+    public HttpServletRequest(Socket socket) throws IOException, EmptyRequestException {
         this.socket = socket;
         //1.1解析请求行
         parseRequestLine();
@@ -48,7 +48,7 @@ public class HttpServletRequest {
     /*
      * 解析请求行
      */
-    private void parseRequestLine() throws IOException {
+    private void parseRequestLine() throws IOException,EmptyRequestException {
         //1.1、解析请求行
         String line = readLine();
         System.out.println(line);
