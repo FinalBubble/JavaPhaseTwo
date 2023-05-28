@@ -7,26 +7,36 @@ import java.lang.reflect.Method;
 import java.util.Scanner;
 
 /**
- * 使用反射机制调用方法
+ * 使用反射机制暴力反射
  */
-public class ReflectDemo07 {
-    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
-        Person person = new Person();
-        person.doSome("学Java");
+public class ReflectDemo08 {
+    public static void main(String[] args) throws InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException,
+            ClassNotFoundException,
+            NoSuchMethodException {
         //1、实例化
         Class cls = Class.forName("day20230527.Person");
         Object o = cls.newInstance();
-        Method[] declaredMethods = cls.getDeclaredMethods();
-        for (Method declaredMethod : declaredMethods) {
-            System.out.println(declaredMethod);
-        }
-        System.out.println("请输入方法名：");
-        String methodName = new Scanner(System.in).nextLine();
+        //Method[] declaredMethods = cls.getDeclaredMethods();
+        //for (Method declaredMethod : declaredMethods) {
+        //    System.out.println(declaredMethod);
+        //}
+        //System.out.println("请输入方法名：");
+        //String methodName = new Scanner(System.in).nextLine();
         //指定方法名和参数类型，获取指定的方法
-        Method method1 = cls.getMethod("doSome", String.class);
-        //3、如果调用的是含参方法，必须要在对象后面，添加参数值
-        method1.invoke(o,"学Java");
-        Method method2 = cls.getMethod("doSome", String.class, int.class);
-        method2.invoke(o,"玩游戏",12);
+        /**
+         * Exception in thread "main"
+         * java.lang.NoSuchMethodException: day20230527.Person.secret()
+         * Method method = cls.getMethod("secret")
+         */
+
+        Method method = cls.getDeclaredMethod("secret");
+        //反射机制具备强行打开访问权限的功能
+        method.setAccessible(true);
+        method.invoke(o);
+        //一旦反射机制打开了权限，用完之后，及时关闭
+        method.setAccessible(false);
+
     }
 }

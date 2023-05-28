@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 /**
  * 自动调用被AutoRunMethod修饰的方法
  */
-public class TestAnnotation04 {
+public class TestAnnotation05 {
     public static void main(String[] args) throws ClassNotFoundException, URISyntaxException, InstantiationException, IllegalAccessException, InvocationTargetException {
         File dir = new File(
                 Person.class.getResource(".").toURI()
@@ -34,8 +34,15 @@ public class TestAnnotation04 {
                 Method[] declaredMethods = cls.getDeclaredMethods();
                 for (Method declaredMethod : declaredMethods) {
                     if (declaredMethod.isAnnotationPresent(AutoRunMethod.class)){
-                        System.out.println("自动调用方法："+declaredMethod.getName());
-                        declaredMethod.invoke(o);
+                        //获取注解传入的参数值
+                        //1、获取方法上的注解
+                        AutoRunMethod autoRunMethod = declaredMethod.getAnnotation(AutoRunMethod.class);
+                        //2、通过注解实例，获取参数值
+                        int value = autoRunMethod.num();
+                        System.out.println("自动调用方法："+declaredMethod.getName()+ " : "+ value +"次");
+                        for (int i = 0; i < value; i++) {
+                            declaredMethod.invoke(o);
+                        }
                     }
                 }
             }

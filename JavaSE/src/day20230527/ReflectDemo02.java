@@ -3,11 +3,9 @@ package day20230527;
 import java.lang.reflect.Method;
 
 /**
- * java反射机制
- * 反射是java中的动态机制,它允许我们在程序的运行期间再确定对象的实例化,方法的调用,
- * 属性的操作等等.使得程序的灵活度大大提升,但是同时也会带来更多的资源消耗和较低的运行效率
+ * 获取类中的所有方法
  */
-public class ReflectDemo01 {
+public class ReflectDemo02 {
     public static void main(String[] args) {
         /**
          * 学习反射,首先要学习一个类: Class类对象
@@ -29,18 +27,11 @@ public class ReflectDemo01 {
          */
         //获取String的Class实例，该实例中，记录了String类中的所有信息
         Class cla = String.class;
-        //获取String类的相关信息
-        String name = cla.getName();//获取包名.类名
-        System.out.println("全路径名："+name);
-        name = cla.getSimpleName();//获取类名
-        System.out.println("类名："+name);
-        name = cla.getPackage().getName();//获取包名
-        System.out.println("包名："+name);
-        //获取当前类对象中所表示的类的所有的公开方法(包括从父类中继承的方法)
-        Method[] methods = cla.getMethods();
-        System.out.println(cla.getSimpleName()+"类中一共有"+methods.length+"个公有方法!");
+        //获取当前类对象所表示的类中的所有方法(包含私有方法,不包含从超类中继承的方法)
+        Method[] methods = cla.getDeclaredMethods();
+        System.out.println(cla.getSimpleName()+"类中一共有:"+methods.length+"个方法");
         for (Method method : methods) {
-            System.out.println(cla.getSimpleName()+"类中的公有方法: "+method.getName());
+            System.out.println(cla.getSimpleName()+"类中的方法: "+method.getName());
         }
     }
 }
