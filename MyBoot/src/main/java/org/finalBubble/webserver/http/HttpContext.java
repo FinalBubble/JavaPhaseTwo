@@ -45,7 +45,7 @@ public class HttpContext {
              */
             properties.load(
                     HttpContext.class.getResourceAsStream(
-                            "./web.properties"
+                            "/org/finalBubble/webserver/http/web.properties"
                     )
             );
             //现在的数据都已经解析成key和value存储到prop中

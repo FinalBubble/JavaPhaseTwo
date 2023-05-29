@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
  */
 
 public class WebServerApplication {
+    public static Class TARGET;//哪个类启动的当前的WebServerApplication
     private ServerSocket serverSocket;
     private ExecutorService threadPool;
     public WebServerApplication() {
@@ -48,7 +49,8 @@ public class WebServerApplication {
         }
     }
 
-    public static void run() {
+    public static void run(Class target) {
+        TARGET =target;
         WebServerApplication webServerApplication = new WebServerApplication();
         webServerApplication.start();
     }

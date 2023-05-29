@@ -52,8 +52,9 @@ public class DispatcherServlet {
          */
         try {
             File dir = new File(
-                    DispatcherServlet.class.getClassLoader().getResource(
-                            "./org/finalBubble/webserver/controller").toURI()
+                    //定位到TestBoot所在包下的controller包
+                    WebServerApplication.TARGET.getResource(
+                            "./controller").toURI()
             );
             File[] files = dir.listFiles(f -> f.getName().endsWith(".class"));
             for (File file : files) {
@@ -61,9 +62,10 @@ public class DispatcherServlet {
                 String fileName = file.getName();
                 //通过文件名,去掉.class,获取类名
                 String className = fileName.substring(0, fileName.indexOf("."));
-                //通过org.finalBubble.webserver.controller.+className,就是类全路径,就可以获取类的Class实例
+                //主启动类所在的包 com
+                String packageName = WebServerApplication.TARGET.getPackage().getName();
                 Class cls = Class.forName(
-                        "org.finalBubble.webserver.controller." + className);
+                        packageName + ".controller." + className);
                 //判断该类是否被@Controller注解修饰了
                 if (cls.isAnnotationPresent(Controller.class)) {
                     Method[] methods = cls.getMethods();
