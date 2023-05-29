@@ -48,7 +48,7 @@ public class WebServerApplication {
         }
     }
 
-    public static void run(String[] args) {
+    public static void run() {
         WebServerApplication webServerApplication = new WebServerApplication();
         webServerApplication.start();
     }
