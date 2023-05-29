@@ -44,12 +44,12 @@ public class UserController {
         System.out.println("开始实现用户注册...");
         //1、获取用户提交的表单数据
         String username = request.getParameter("username");
-        String printWriterd = request.getParameter("printWriterd");
+        String pwd = request.getParameter("pwd");
         String nickname = request.getParameter("nickname");
         String ageStr = request.getParameter("age");
-        System.out.println(username + "," + printWriterd + "," + nickname + "," + ageStr);
+        System.out.println(username + "," + pwd + "," + nickname + "," + ageStr);
         if ( username == null //用户名不为空
-                || printWriterd == null //密码不为空
+                || pwd == null //密码不为空
                 || nickname == null //昵称不为空
                 || ageStr == null //年龄不为空
                 || !ageStr.matches("[0-9]+")) {//年龄不是由纯数字组成的
@@ -62,7 +62,7 @@ public class UserController {
         //2.1、将用户信息以一个User实例表示
         //将字符串的ageStr转换为int类型的age
         int age = Integer.parseInt(ageStr);
-        User user = new User(username,printWriterd,nickname,age);
+        User user = new User(username,pwd,nickname,age);
         //2.2将user序列化到文件中
         //new File(父级目录路径,子级文件路径);
         //规定序列化的文件以注册的用户名作为文件名,并且文件的后缀为.obj
@@ -93,10 +93,10 @@ public class UserController {
         System.out.println("开始实现用户登录...");
         //1、获取用户提交的表单数据
         String username = request.getParameter("username");
-        String printWriterd = request.getParameter("printWriterd");
-        System.out.println(username + "," + printWriterd );
+        String pwd = request.getParameter("pwd");
+        System.out.println(username + "," + pwd );
         if ( username == null //用户名不为空
-                || printWriterd == null ) {//密码不为空
+                || pwd == null ) {//密码不为空
             File file = new File(staticDir, "/myweb/login_info_error.html");
             response.setContentFile(file);
             return;
@@ -114,7 +114,7 @@ public class UserController {
                 //将指定的数据写入到对象中
                 User user = (User) objectInputStream.readObject();
                 //4、密码对比
-                if (user.getPwd().equals(printWriterd)) {
+                if (user.getPwd().equals(pwd)) {
                     //登录成功
                     File file = new File(staticDir, "/myweb/login_success.html");
                     response.setContentFile(file);
@@ -130,7 +130,7 @@ public class UserController {
         System.out.println("用户登录功能实现完毕!!!");
     }
 
-    /*
+    /**
     public void login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("开始处理用户登陆...");
         String username = request.getParameter("username");

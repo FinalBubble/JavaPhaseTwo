@@ -1,5 +1,7 @@
 package org.finalBubble.webserver.controller;
 
+import org.finalBubble.webserver.annotation.Controller;
+import org.finalBubble.webserver.annotation.RequestMapping;
 import org.finalBubble.webserver.core.ClientHandler;
 import org.finalBubble.webserver.entity.User;
 import org.finalBubble.webserver.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import java.util.List;
  * V: view 视图
  * C: controller 控制
  */
+@Controller
 public class UserController {
     //加载类的时候,实例化一个users目录的File实例
     private static File USER_DIR = new File("./WebServer/users");
@@ -40,6 +43,7 @@ public class UserController {
     /*
      * 处理用户注册的业务方法
      */
+    @RequestMapping("/myweb/reg")
     public void reg(HttpServletRequest request, HttpServletResponse response) {
         //实现用户注册功能
         System.out.println("开始实现用户注册...");
@@ -90,6 +94,7 @@ public class UserController {
         System.out.println("用户注册功能实现完毕!!!");
     }
 
+    @RequestMapping("/myweb/login")
     public void login(HttpServletRequest request, HttpServletResponse response) {
         //实现用户登录功能
         System.out.println("开始实现用户登录...");
@@ -169,6 +174,7 @@ public class UserController {
     }
      */
 
+    @RequestMapping("/myweb/showAllUser")
     public void showAllUser(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("开始生成动态页面...");
         //0、准备一个list容器，用户承装获取到的用户实例
