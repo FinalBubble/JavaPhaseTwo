@@ -21,7 +21,7 @@ public class TestAnnotation03 {
             //String path = packageName + "." + className;
             //Class cls = Class.forName(path);
             Class cls = Class.forName(
-                    Person.class.getPackageName() +
+                    Person.class.getPackage().getName() +
                             "." +
                             file.getName().substring(0,file.getName().indexOf('.'))
             );

@@ -30,7 +30,7 @@ public class Test02 {
             //substring(int start) 表示从下标start的位置截取字符串,保留从下标start开始的字符串
             //substring(int start,int end) 表示截取下标[start,end)部分的字符串
             //indexOf(String reg) 获取字符串中出现指定字符串的下标
-            String packageName = Test02.class.getPackageName();
+            String packageName = Test02.class.getPackage().getName();
             String className = fileName.substring(0,fileName.indexOf('.'));
             String path = packageName + "." + className;
             //System.out.println(path);
